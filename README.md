@@ -1,4 +1,4 @@
-# Project-13-12-2021
+# Drone Gianlucus
 
 Server Node that will catch the data that are sent by the drone (programmed by Sbrissa Michele)  
 Simulate a drone and send the data via post (programmed by Monteleone Alessandro) 
