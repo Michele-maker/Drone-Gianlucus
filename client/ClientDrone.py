@@ -3,10 +3,20 @@ import random
 import schedule
 from datetime import datetime
 import time 
+import json
+FILENAME= "ipserver.json"
 
-def postdronesend(jsondata):
+def readDB():
+    f=open(FILENAME,'r')
+    xx = f.read()
+    myjson = json.loads(xx)
+    print(myjson['ip'])
+    f.close()
+    return myjson
     
-    r = requests.post('http://10.30.134.12:8011/api/drones', json=jsondata)  
+def postdronesend(jsondata):
+    ip=readDB()
+    r = requests.post(f'http://{ip}:8011/api/drones', json=jsondata)  
 
 def error():
     print("errore orrore")
@@ -39,6 +49,7 @@ def dronedemo():
 
 if __name__ == '__main__':
     #eseguo 
+    readDB()
     schedule.every(1).minutes.do(dronedemo)
     while True:
            schedule.run_pending()
