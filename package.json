@@ -1,0 +1,19 @@
+{
+  "name": "server_project",
+  "version": "1.0.0",
+  "description": "Server Node that will catch the data that are sent by the drone (programmed by Sbrissa Michele)  \r Simulate a drone and send the data via post (programmed by Monteleone Alessandro)",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm, nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Michele-maker/Drone-Gianlucus.git"
+  },
+  "author": "Michele Sbrissa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Michele-maker/Drone-Gianlucus/issues"
+  },
+  "homepage": "https://github.com/Michele-maker/Drone-Gianlucus#readme"
+}

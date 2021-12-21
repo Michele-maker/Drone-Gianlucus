@@ -7,7 +7,7 @@ const errorHandlers = require('./errors');
 
 //connessione a mongo
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/esercitazione_13_12_2021', {useNewUrlParser:true, useUnifiedTopology:true})
+mongoose.connect('mongodb://localhost:27017/esercitazione_droni', {useNewUrlParser:true, useUnifiedTopology:true})
 mongoose.set('debug',true);
 
 app.use(cors());

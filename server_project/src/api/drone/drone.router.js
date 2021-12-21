@@ -6,6 +6,7 @@ const droneController = require('./drone.controller');
 router.post('/', droneController.createdrone);
 
 router.get('/', droneController.list); 
-router.get('/:id', droneController.details); 
+router.get('/:id', droneController.details);
+router.get('/:idDrone/status', droneController.getStatus); 
 
 module.exports = router;
