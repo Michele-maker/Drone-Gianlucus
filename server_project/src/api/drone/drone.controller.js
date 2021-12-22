@@ -44,7 +44,7 @@ module.exports.details = async (req,res,next) => {
 
 module.exports.getStatus = async (req,res,next) => {
     try {
-        const idle = { "stato": "libero"};
+        const idle = { "status": "free"};
         const results = await droneModel.getLast(minutes30ago,req.params.idDrone);
         if(results != '') {
             res.json(results);
