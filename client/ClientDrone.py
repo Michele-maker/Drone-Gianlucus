@@ -64,7 +64,6 @@ def dronedemo():
         "posizione": posizione,
         "velocita": velocita,
         "percentuale": percentuale
-
     }
 
     mqttdronepublish(json)
