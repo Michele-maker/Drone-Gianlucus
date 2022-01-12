@@ -21,9 +21,6 @@ def postdronesend(jsondata):
 def error():
     print("errore orrore")
 
-
-
-
 #creo un metodo fittizio che simula il drone
 def dronedemo():
     
@@ -44,9 +41,6 @@ def dronedemo():
     }
     postdronesend(json)
 
-
-
-
 if __name__ == '__main__':
     #eseguo 
     readDB()
@@ -54,4 +48,3 @@ if __name__ == '__main__':
     while True:
            schedule.run_pending()
            time.sleep(1)
-   

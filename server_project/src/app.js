@@ -5,10 +5,10 @@ const routes = require('./api/router');
 const cors = require('cors');
 const errorHandlers = require('./errors');
 
-//connessione a mongo
+// connessione a mongo
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/esercitazione_droni', {useNewUrlParser:true, useUnifiedTopology:true})
-mongoose.set('debug',true);
+mongoose.connect('mongodb://localhost:27017/esercitazione_droni', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.set('debug', true);
 
 app.use(cors());
 
