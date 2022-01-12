@@ -4,25 +4,43 @@ import schedule
 from datetime import datetime
 import time 
 import json
-FILENAME= "ipserver.json"
+from paho.mqtt.client import Client
 
-def readDB():
-    f=open(FILENAME,'r')
+
+HTTP= "ipserver.json"
+MQTT= "ipservermqtt.json"
+CLIENT = Client(client_id = "client_1")
+
+def getIpHttp():
+    f=open(HTTP,'r')
     xx = f.read()
     myjson = json.loads(xx)
-    print(myjson['ip'])
     f.close()
-    return myjson
-    
+    return myjson['ip']
+
+def getIpMqtt():
+    f=open(MQTT,'r')
+    xx = f.read()
+    myjson = json.loads(xx)
+    f.close()
+    return myjson['ip']
+
 def postdronesend(jsondata):
-    ip=readDB()
+    ip=getIpHttp()
     r = requests.post(f'http://{ip}:8011/api/drones', json=jsondata)  
 
 def error():
     print("errore orrore")
 
-
-
+def mqttdronepublish(jsondata):
+    ip=getIpMqtt()
+    #ip="10.30.134.17:1833"
+    #CLIENT.connect(ip)
+    CLIENT.connect(ip, 1883, 60)
+    print(jsondata["idDrone"])
+    y = json.dumps(jsondata)
+    CLIENT.publish(topic = f"DroneGianlucus/{jsondata['idDrone']}",payload = y) 
+    
 
 #creo un metodo fittizio che simula il drone
 def dronedemo():
@@ -31,26 +49,28 @@ def dronedemo():
     posizione = random.randrange(30000,70000) / 1000
     percentuale = random.randrange(1000,100000) / 1000
     data=datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-    idPersona = 1
-    idDrone = 1
-    print(data)
+    idDrone = random.randrange(1,7) 
+    idPersona = random.randrange(1,20)
+    #print(data)
     json={
         "dueDate": data ,
+        "idPersona":idPersona,
+        "idDrone":idDrone,
         "posizione": posizione,
         "velocita": velocita,
-        "percentuale": percentuale,
-        "idPersona":idPersona,
-        "idDrone":idDrone
+        "percentuale": percentuale
+        
     }
-    postdronesend(json)
+
+    mqttdronepublish(json)
 
 
 
 
 if __name__ == '__main__':
     #eseguo 
-    readDB()
-    schedule.every(1).minutes.do(dronedemo)
+    getIpMqtt()
+    schedule.every(10).seconds.do(dronedemo)
     while True:
            schedule.run_pending()
            time.sleep(1)
