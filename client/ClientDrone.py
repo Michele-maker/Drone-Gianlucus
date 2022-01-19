@@ -9,6 +9,7 @@ import logging
 import asyncio
 
 from aiocoap import *
+
 logging.basicConfig(level=logging.INFO)
 
 HOST='10.30.134.17'
