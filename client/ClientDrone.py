@@ -6,10 +6,31 @@ import time
 import json
 from paho.mqtt.client import Client
 
+import pika, os
+
+
 
 HTTP = "ipserver.json"
 MQTT = "ipservermqtt.json"
 CLIENT = Client(client_id="client_1")
+
+url = os.environ.get('CLOUDAMQP_URL', 'amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloudamqp.com/qakmjopm')
+
+def sendAmqp(jsondata):
+    y=''
+    y = json.dumps(jsondata)
+    params = pika.URLParameters(url)
+    connection = pika.BlockingConnection(params)
+    channel = connection.channel() # start a channel
+    #channel.queue_declare(queue=f'DroneGianlucus/{jsondata["idDrone"]}') # Declare a queue
+    channel.queue_declare(queue=f'DroneGianlucus/1')
+    print(y)
+    channel.basic_publish(exchange='DroneGianlucus',
+                      routing_key=f'{jsondata["idDrone"]}',
+                      body=y)
+
+    print(f'jsondata["idDrone"]')
+    connection.close()
 
 
 def getIpHttp():
@@ -54,7 +75,7 @@ def dronedemo():
     posizione = random.randrange(30000, 70000) / 1000
     percentuale = random.randrange(1000, 100000) / 1000
     data = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-    idDrone = random.randrange(1, 7)
+    idDrone = random.randrange(1, 4)
     idPersona = random.randrange(1, 20)
     # print(data)
     json = {
@@ -66,12 +87,12 @@ def dronedemo():
         "percentuale": percentuale
     }
 
-    mqttdronepublish(json)
+    sendAmqp(json)
 
 
 if __name__ == '__main__':
     # eseguo
-    getIpMqtt()
+    #getIpMqtt()
     schedule.every(10).seconds.do(dronedemo)
     while True:
         schedule.run_pending()
