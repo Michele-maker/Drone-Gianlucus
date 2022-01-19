@@ -17,7 +17,65 @@ const host = 'broker.emqx.io';
 const port = '1883';
 const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
 
-// utilizzo di MQTT
+// utilizzo di AMQP
+
+// Funzione di invio
+var amqp = require('amqplib/callback_api');
+
+amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloudamqp.com/qakmjopm', function(error0, connection) {
+    if (error0) {
+        throw error0;
+    }
+    connection.createChannel(function(error1, channel) {
+        if (error1) {
+            throw error1;
+        }
+
+        var queue = 'hello';
+        var msg = 'Ciaone!';
+
+        channel.assertQueue(queue, {
+            durable: false
+        });
+        channel.sendToQueue(queue, Buffer.from(msg));
+
+        console.log(" [x] Sent %s", msg);
+    });
+    setTimeout(function() {
+        connection.close();
+        process.exit(0);
+    }, 500);
+});
+
+//Funzione di ricezione
+amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloudamqp.com/qakmjopm', function (error0, connection) {
+    if (error0) {
+        throw error0;
+    }
+    connection.createChannel(function (error1, channel) {
+        if (error1) {
+            throw error1;
+        }
+
+        var queue = 'hello';
+
+        channel.assertQueue(queue, {
+            durable: false
+        });
+
+        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+
+        channel.consume(queue, function (msg) {
+            console.log(" [x] Received %s", msg.content.toString());
+        }, {
+            noAck: true
+        });
+    });
+});
+
+
+
+/* // utilizzo di MQTT
 const connectUrl = `mqtt://${host}:${port}`
 
 const client = mqtt.connect(connectUrl, {
@@ -41,7 +99,7 @@ client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString());
     const obj = JSON.parse(payload.toString())
     droneModel.create(obj);
-});
+}); */
 
 
 app.use(cors());
