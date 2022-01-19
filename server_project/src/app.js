@@ -22,7 +22,7 @@ const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
 // Funzione di invio
 var amqp = require('amqplib/callback_api');
 
-amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloudamqp.com/qakmjopm', function(error0, connection) {
+/* amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloudamqp.com/qakmjopm', function(error0, connection) {
     if (error0) {
         throw error0;
     }
@@ -31,8 +31,8 @@ amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloud
             throw error1;
         }
 
-        var queue = 'hello';
-        var msg = 'Ciaone!';
+        var queue = 'DroneGianlucus/1';
+        var msg = 'Ciaone';
 
         channel.assertQueue(queue, {
             durable: false
@@ -40,12 +40,8 @@ amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloud
         channel.sendToQueue(queue, Buffer.from(msg));
 
         console.log(" [x] Sent %s", msg);
-    });
-    setTimeout(function() {
-        connection.close();
-        process.exit(0);
-    }, 500);
-});
+    })
+}); */
 
 //Funzione di ricezione
 amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloudamqp.com/qakmjopm', function (error0, connection) {
@@ -57,7 +53,7 @@ amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloud
             throw error1;
         }
 
-        var queue = 'hello';
+        var queue = 'DroneGianlucus/1';
 
         channel.assertQueue(queue, {
             durable: false
