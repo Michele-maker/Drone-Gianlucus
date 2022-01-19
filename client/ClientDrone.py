@@ -31,7 +31,7 @@ async def postcoap(jsondata):
 
     print('Result: %s\n%r'%(response.code, response.payload))
 #la funzione non va dato che ho riscontrato problemi con la libreria di coap per python
-async def getcoat():
+async def getcoap():
     protocol = await Context.create_client_context()
 
     request = Message(code=GET, uri=f'coap://{HOST}/{PATH}')
@@ -99,7 +99,7 @@ def dronedemo():
     }
 
     #mqttdronepublish(json)
-    asyncio.run(getcoat(json))
+    asyncio.run(getcoap())
 
 if __name__ == '__main__':
     # eseguo
