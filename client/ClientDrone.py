@@ -99,11 +99,11 @@ def dronedemo():
     }
 
     #mqttdronepublish(json)
-    asyncio.run(getcoat())
+    asyncio.run(getcoat(json))
 
 if __name__ == '__main__':
     # eseguo
-    getIpMqtt()
+    #getIpMqtt()
     schedule.every(10).seconds.do(dronedemo)
     while True:
         schedule.run_pending()
