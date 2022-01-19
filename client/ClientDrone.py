@@ -98,7 +98,7 @@ def dronedemo():
     }
 
     #mqttdronepublish(json)
-    asyncio.run(postcoap())
+    asyncio.run(getcoat())
 
 if __name__ == '__main__':
     # eseguo
