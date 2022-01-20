@@ -17,6 +17,7 @@ const host = 'broker.emqx.io';
 const port = '1883';
 const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
 
+
 // utilizzo di MQTT
 const connectUrl = `mqtt://${host}:${port}`
 
