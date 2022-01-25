@@ -15,23 +15,34 @@ MQTT = "ipservermqtt.json"
 CLIENT = Client(client_id="client_1")
 
 url = os.environ.get('CLOUDAMQP_URL', 'amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloudamqp.com/qakmjopm')
-
-def sendAmqp(jsondata):
+#invio dati a server amqp con excange di tipo direct
+def sendAmqpDirect(jsondata):
     y=''
     y = json.dumps(jsondata)
     params = pika.URLParameters(url)
     connection = pika.BlockingConnection(params)
     channel = connection.channel() # start a channel
-    #channel.queue_declare(queue=f'DroneGianlucus/{jsondata["idDrone"]}') # Declare a queue
-    channel.queue_declare(queue=f'DroneGianlucus/1')
     print(y)
-    channel.basic_publish(exchange='DroneGianlucus',
-                      routing_key=f'{jsondata["idDrone"]}',
+    channel.basic_publish(exchange='DroneGianlucus_Direct',
+                      routing_key=f'DroneGianlucus_Direct.{jsondata["idDrone"]}',
                       body=y)
 
     print(f'jsondata["idDrone"]')
     connection.close()
+#invio dati a server amqp con excange di tipo fanout
+def sendAmqpfanout(jsondata):
+    y=''
+    y = json.dumps(jsondata)
+    params = pika.URLParameters(url)
+    connection = pika.BlockingConnection(params)
+    channel = connection.channel() # start a channel
+    print(y)
+    channel.basic_publish(exchange='DroneGianlucus_Fanout',
+                      routing_key=f'DroneGianlucus_Fanout.dr{jsondata["idDrone"]}.pe{jsondata["idPersona"]}',
+                      body=y)
 
+    print(f'jsondata["idDrone"]')
+    connection.close()
 
 def getIpHttp():
     f = open(HTTP, 'r')
@@ -75,7 +86,7 @@ def dronedemo():
     posizione = random.randrange(30000, 70000) / 1000
     percentuale = random.randrange(1000, 100000) / 1000
     data = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
-    idDrone = random.randrange(1, 4)
+    idDrone = random.randrange(1, 7)
     idPersona = random.randrange(1, 20)
     # print(data)
     json = {
@@ -87,13 +98,13 @@ def dronedemo():
         "percentuale": percentuale
     }
 
-    sendAmqp(json)
+    sendAmqpDirect(json)
 
 
 if __name__ == '__main__':
     # eseguo
     #getIpMqtt()
-    schedule.every(10).seconds.do(dronedemo)
+    schedule.every(1).seconds.do(dronedemo)
     while True:
         schedule.run_pending()
         time.sleep(1)
