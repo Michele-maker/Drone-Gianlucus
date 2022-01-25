@@ -37,3 +37,8 @@ folder ClientDrone.py you sould install
 - Schedule
 - Datetime
 - Time
+
+
+## Esercitazione Sci
+
+https://jamboard.google.com/d/1xLtQa4jwTabYD9kw_XhkWsljX480FehDAKbXToG4YMo/edit?usp=sharing
