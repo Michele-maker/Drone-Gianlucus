@@ -53,10 +53,10 @@ amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloud
             throw error1;
         }
 
-        var queue = 'DroneGianlucus/1';
+        var queue = 'Queue/2';
 
         channel.assertQueue(queue, {
-            durable: false
+            durable: true
         });
 
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
@@ -68,34 +68,6 @@ amqp.connect('amqps://qakmjopm:tL_k50XFtY7iMBJStupJ5M3d20DubMdB@jackal.rmq.cloud
         });
     });
 });
-
-
-
-/* // utilizzo di MQTT
-const connectUrl = `mqtt://${host}:${port}`
-
-const client = mqtt.connect(connectUrl, {
-    clientId,
-    clean: true,
-    connectTimeout: 4000,
-    username: 'emqx',
-    password: 'public',
-    reconnectPeriod: 1000,
-});
-
-const topic = 'DroneGianlucus/#'
-client.on('connect', () => {
-    console.log('Connected')
-    client.subscribe([topic], () => {
-        console.log(`Subscribe to topic '${topic}'`)
-    })
-});
-
-client.on('message', (topic, payload) => {
-    console.log('Received Message:', topic, payload.toString());
-    const obj = JSON.parse(payload.toString())
-    droneModel.create(obj);
-}); */
 
 
 app.use(cors());
